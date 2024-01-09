@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+<head>
+    <title>Página Inicial</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        a {
+            display: inline-block;
+            background-color: white;
+            color: black;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>App Cadastro</h1>
+        <a href="{% url 'movies' %}">cadastrar filme</a>
+        <a href="{% url 'events' %}">cadastrar evento</a>
+        <a href="{% url 'persons' %}">cadastrar pessoa</a>
+    </div>
+</body>
+</html>
