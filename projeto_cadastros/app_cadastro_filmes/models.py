@@ -101,3 +101,4 @@ class Roteirista(models.Model):
     td_filmes_r = models.IntegerField(blank=True, null=True)
     ano_r = models.IntegerField(blank=True, null=True)
     td_premios_r = models.IntegerField(blank=True, null=True)
+

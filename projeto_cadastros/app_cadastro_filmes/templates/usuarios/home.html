@@ -7,24 +7,37 @@
             background-color: black;
             color: white;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
         }
 
-        h1 {
+        header {
+            background-color: purple;
+            padding: 10px;
             text-align: center;
         }
 
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        nav {
+            margin-top: 20px;
+        }
+
         a {
-            display: inline-block;
+            display: block;
             background-color: white;
             color: black;
             padding: 10px 20px;
             text-decoration: none;
             border-radius: 5px;
             font-weight: bold;
+            margin-bottom: 10px;
             transition: background-color 0.3s ease;
         }
 
@@ -34,11 +47,15 @@
     </style>
 </head>
 <body>
-    <div>
+    <header>
         <h1>App Cadastro</h1>
-        <a href="{% url 'movies' %}">cadastrar filme</a>
-        <a href="{% url 'events' %}">cadastrar evento</a>
-        <a href="{% url 'persons' %}">cadastrar pessoa</a>
-    </div>
+    </header>
+    <nav>
+        <a href="{% url 'movies' %}">Cadastrar Filme</a>
+        <a href="{% url 'events' %}">Cadastrar Evento</a>
+        <a href="{% url 'persons' %}">Cadastrar Pessoa</a>
+        <a href="{% url 'visualizar_filmes' %}">Visualizar Filmes</a>
+        <a href="{% url 'visualizar_eventos' %}">Visualizar Eventos</a>
+    </nav>
 </body>
 </html>

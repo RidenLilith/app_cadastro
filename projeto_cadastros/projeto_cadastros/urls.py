@@ -10,5 +10,7 @@ urlpatterns = [
     path('persons/ditectors/', views.directors, name='directors'),
     path('persons/roteirists/', views.roteirists, name='roteirists'),
     path('persons/actors/', views.actors, name='actors'),
-    path('movies/info/', views.info, name='info')
+    path('movies/info/', views.info, name='info'),
+    path('visualizar_filmes/', views.visualizar_filmes, name='visualizar_filmes'),
+    path('visualizar_eventos/', views.visualizar_eventos, name='visualizar_eventos')
 ]
