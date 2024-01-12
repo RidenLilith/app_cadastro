@@ -1,104 +1,118 @@
 from django.db import models
 
-# Create your models here.
 class Pessoa(models.Model):
-    nome = models.CharField(max_length=255)
-    nome_artistico = models.CharField(max_length=255, primary_key=True)
-    site = models.CharField(max_length=255, blank=True)
-    status = models.CharField(max_length=50, blank=True)
-    sexo = models.CharField(max_length=50, blank=True)
-
-    def _str_(self):
-        return self.nome_artistico
-    
+    Nome = models.CharField(max_length=255)
+    Nome_Artístico = models.CharField(max_length=255, primary_key=True)
+    Site = models.CharField(max_length=255)
+    Status = models.CharField(max_length=50)
+    Sexo = models.CharField(max_length=50)
+    class Meta:
+        db_table = 'Pessoa'
 
 class Evento(models.Model):
-    nome_evento = models.CharField(max_length=255, primary_key=True)
-    tipo = models.CharField(max_length=255, blank=True)
-    ano_inicio = models.IntegerField(blank=True, null=True)
-    nacionalidade = models.CharField(max_length=255, blank=True)
-
-    def _str_(self):
-        return self.nome_evento
+    NomeEvento = models.CharField(max_length=255, primary_key=True)
+    Tipo = models.CharField(max_length=255)
+    Ano_Inicio = models.IntegerField()
+    Nacionalidade = models.CharField(max_length=255)
+    class Meta:
+        db_table = 'Evento'
 
 class Filme(models.Model):
-    titulo = models.CharField(max_length=255, primary_key=True)
-    titulo_pt = models.CharField(max_length=255, blank=True)
-    titulo_original = models.CharField(max_length=255, blank=True)
-    genero = models.CharField(max_length=255, blank=True)
-    ano = models.IntegerField(blank=True, null=True)
-    produtor = models.CharField(max_length=255, blank=True)
+    Título = models.CharField(max_length=255, primary_key=True)
+    Título_Pt = models.CharField(max_length=255)
+    Título_Original = models.CharField(max_length=255)
+    Gênero = models.CharField(max_length=255)
+    Ano = models.IntegerField()
+    Produtor = models.CharField(max_length=255)
+    class Meta:
+        db_table = 'Filme'
 
-class Edicao(models.Model):
-    id_edicao = models.IntegerField(primary_key=True)
-    data = models.CharField(max_length=255, blank=True)
-    localizacao = models.CharField(max_length=255, blank=True)
-    nome_evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
-    vencedor = models.CharField(max_length=255, blank=True)
-    premio = models.CharField(max_length=255, blank=True)
-    categoria = models.CharField(max_length=255, blank=True)
-    nome_artistico = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
+class Edição(models.Model):
+    ID_Edição = models.IntegerField(primary_key=True)
+    Data = models.CharField(max_length=255)
+    Localização = models.CharField(max_length=255)
+    NomeEvento = models.ForeignKey(Evento, on_delete=models.CASCADE)
+    Vencedor = models.CharField(max_length=255)
+    Premio = models.CharField(max_length=255)
+    Categoria = models.CharField(max_length=255)
+    Nome_Artístico = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
+    class Meta:
+        db_table = 'Edição'
 
-class Informacao(models.Model):
-    id_informacao = models.IntegerField(primary_key=True)
-    local_estreia = models.CharField(max_length=255, blank=True)
-    sala_exibicao = models.CharField(max_length=255, blank=True)
-    arrecadacao_primeiro_ano = models.BigIntegerField(blank=True, null=True)
-    arrecadacao_total = models.BigIntegerField(blank=True, null=True)
-    titulo = models.ForeignKey(Filme, on_delete=models.CASCADE)
-    id_edicao = models.ForeignKey(Edicao, on_delete=models.CASCADE)
+class Informação(models.Model):
+    ID_Informação = models.IntegerField(primary_key=True)
+    Local_Estreia = models.CharField(max_length=255)
+    Sala_Exibição = models.CharField(max_length=255)
+    Arrecadação_Primeiro_Ano = models.BigIntegerField()
+    Arrecadação_Total = models.BigIntegerField()
+    Título = models.ForeignKey(Filme, on_delete=models.CASCADE)
+    ID_Edição = models.ForeignKey(Edição, on_delete=models.CASCADE)
+    class Meta:
+        db_table = 'Informação'
+
 
 class Ocorre(models.Model):
-    nome_evento = models.ForeignKey(Evento, on_delete=models.CASCADE)
-    id_edicao = models.ForeignKey(Edicao, on_delete=models.CASCADE)
+    NomeEvento = models.ForeignKey(Evento, on_delete=models.CASCADE)
+    ID_Edição = models.ForeignKey(Edição, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = [['nome_evento', 'id_edicao']]
+        unique_together = [['NomeEvento', 'ID_Edição']]
+        db_table = 'Ocorre'
 
-class EJuri(models.Model):
-    nome_artistico = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
-    id_edicao = models.ForeignKey(Edicao, on_delete=models.CASCADE)
+class ÉJuri(models.Model):
+    Nome_Artístico = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
+    ID_Edição = models.ForeignKey(Edição, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = [['nome_artistico', 'id_edicao']]
+        unique_together = [['Nome_Artístico', 'ID_Edição']]
+        db_table = 'ÉJuri'
 
 class Participa(models.Model):
-    nome_artistico = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
-    titulo = models.ForeignKey(Filme, on_delete=models.CASCADE)
+    Nome_Artístico = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
+    Título = models.ForeignKey(Filme, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = [['nome_artistico', 'titulo']]
+        unique_together = [['Nome_Artístico', 'Título']]
+        db_table = 'Participa'
 
 class Indicado(models.Model):
-    nome_artistico = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
-    id_edicao = models.ForeignKey(Edicao, on_delete=models.CASCADE)
-    titulo = models.ForeignKey(Filme, on_delete=models.CASCADE)
+    Nome_Artístico = models.ForeignKey(Pessoa, on_delete=models.CASCADE)
+    ID_Edição = models.ForeignKey(Edição, on_delete=models.CASCADE)
+    Título = models.ForeignKey(Filme, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = [['nome_artistico', 'id_edicao', 'titulo']]
+        unique_together = [['Nome_Artístico', 'ID_Edição', 'Título']]
+        db_table = 'Indicado'
 
 class Possui(models.Model):
-    titulo = models.ForeignKey(Filme, on_delete=models.CASCADE)
-    id_informacao = models.ForeignKey(Informacao, on_delete=models.CASCADE)
+    Título = models.ForeignKey(Filme, on_delete=models.CASCADE)
+    ID_Informação = models.ForeignKey(Informação, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = [['titulo', 'id_informacao']]
+        unique_together = [['Título', 'ID_Informação']]
+        db_table = 'Possui'
 
 class Ator(models.Model):
-    nome_artistico = models.OneToOneField(Pessoa, on_delete=models.CASCADE, primary_key=True)
-    td_filmes_a = models.IntegerField(blank=True, null=True)
-    ano_a = models.IntegerField(blank=True, null=True)
-    td_premios_a = models.IntegerField(blank=True, null=True)
+    Nome_Artístico = models.OneToOneField(Pessoa, on_delete=models.CASCADE, primary_key=True)
+    tdFilmesA = models.IntegerField()
+    Ano_A = models.IntegerField()
+    tdPremiosA = models.IntegerField()
+    class Meta:
+        db_table = 'Ator'
 
 class Diretor(models.Model):
-    nome_artistico = models.OneToOneField(Pessoa, on_delete=models.CASCADE, primary_key=True)
-    td_filmes_d = models.IntegerField(blank=True, null=True)
-    ano_d = models.IntegerField(blank=True, null=True)
-    td_premios_d = models.IntegerField(blank=True, null=True)
+    Nome_Artístico = models.OneToOneField(Pessoa, on_delete=models.CASCADE, primary_key=True)
+    tdFilmesD = models.IntegerField()
+    Ano_D = models.IntegerField()
+    tdPremiosD = models.IntegerField()
+    class Meta:
+        db_table = 'Diretor'
+
 
 class Roteirista(models.Model):
-    nome_artistico = models.OneToOneField(Pessoa, on_delete=models.CASCADE, primary_key=True)
-    td_filmes_r = models.IntegerField(blank=True, null=True)
-    ano_r = models.IntegerField(blank=True, null=True)
-    td_premios_r = models.IntegerField(blank=True, null=True)
-
+    Nome_Artístico = models.OneToOneField(Pessoa, on_delete=models.CASCADE, primary_key=True)
+    tdFilmesR = models.IntegerField()
+    Ano_R = models.IntegerField()
+    tdPremiosR = models.IntegerField()
+    class Meta:
+        db_table = 'Roteirista'

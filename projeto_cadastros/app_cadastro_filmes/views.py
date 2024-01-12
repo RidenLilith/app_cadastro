@@ -6,8 +6,8 @@ def movies(request):
     if request.method == 'POST':
         form = FilmeForm(request.POST)
         if form.is_valid():
-            form.save()  # Salva os dados no banco de dados
-            return redirect('home')  # Redireciona para a página inicial após o cadastro
+            form.save()
+            return redirect('home')
     else:
         form = FilmeForm()
 
@@ -15,6 +15,7 @@ def movies(request):
 
 def home(request):
     return render(request, "usuarios/home.html")
+
 def events(request):
     if request.method == 'POST':
         form = EventoForm(request.POST)
@@ -23,6 +24,7 @@ def events(request):
             return redirect('home')
     else:
         form = EventoForm()
+
     return render(request, 'usuarios/events.html', {'form': form})
 
 def persons(request):
@@ -30,7 +32,7 @@ def persons(request):
         form = PessoaForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')  # Ou redirecione para a página desejada
+            return redirect('home')
     else:
         form = PessoaForm()
 
@@ -41,7 +43,7 @@ def editions(request):
         form = EdicaoForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')  # Ou redirecione para a página desejada
+            return redirect('home')
     else:
         form = EdicaoForm()
 
@@ -80,15 +82,11 @@ def actors(request):
 
     return render(request, 'usuarios/actors.html', {'form': form})
 
-from django.shortcuts import render, redirect
-from .forms import InformacaoForm
-
 def info(request):
     if request.method == 'POST':
         form = InformacaoForm(request.POST)
         if form.is_valid():
             form.save()
-            # Redirecione para a página desejada após salvar os dados
             return redirect('info')
     else:
         form = InformacaoForm()
@@ -102,4 +100,3 @@ def visualizar_filmes(request):
 def visualizar_eventos(request):
     eventos = Evento.objects.all()
     return render(request, 'visualizacoes/visualizar_eventos.html', {'eventos': eventos})
-
